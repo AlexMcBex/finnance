@@ -4,4 +4,4 @@
 - React.js
 - Next.js
 - Chart.js
-- 
+- TailwindCSS
