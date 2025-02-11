@@ -17,11 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomInput from "./CustomInput";
+import { Loader2 } from "lucide-react";
 
 import { authFormSchema } from "@/lib/utils";
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // 1. Define your form. From https://ui.shadcn.com/docs/components/form
   const form = useForm<z.infer<typeof authFormSchema>>({
@@ -36,7 +38,10 @@ const AuthForm = ({ type }: { type: string }) => {
   function onSubmit(values: z.infer<typeof authFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    setLoading(true);
+    // console.log(values);
+
+    setLoading(false);
   }
 
   return (
@@ -86,7 +91,17 @@ const AuthForm = ({ type }: { type: string }) => {
                 label="Password"
                 placeholder="Enter your password"
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="form-btn">
+                {loading ? (
+                  <>
+                    <Loader2 size={20} className="animate-spin" />&nbsp;Loading...
+                  </>
+                ) : type === "sign-in" ? (
+                  "Log In"
+                ) : (
+                  "Sign Up"
+                )}
+              </Button>
             </form>
           </Form>
         </>
