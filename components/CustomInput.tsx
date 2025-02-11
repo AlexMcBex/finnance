@@ -6,11 +6,11 @@ import { z } from 'zod'
 import { authFormSchema } from '@/lib/utils'
 
 
-
+const formSchema = (authFormSchema('sign-up'))
 interface CustomInput {
-    control: Control<z.infer<typeof authFormSchema>>,
+    control: Control<z.infer<typeof formSchema>>,
     // name: 'email' | 'password', //name of the field between name and password
-    name: FieldPath<z.infer<typeof authFormSchema>>, //name options taken directly form the schema in utils
+    name: FieldPath<z.infer<typeof formSchema>>, //name options taken directly form the schema in utils
     label: string,
     placeholder: string
 }
