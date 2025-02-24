@@ -20,12 +20,16 @@ import CustomInput from "./CustomInput";
 import { Loader2 } from "lucide-react";
 
 import { authFormSchema } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { signIn, signUp } from "@/lib/actions/user.actions";
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const formSchema = authFormSchema(type);
+
+  const router = useRouter() //from next/navigation, not next/router
 
   // 1. Define your form. From https://ui.shadcn.com/docs/components/form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,14 +41,35 @@ const AuthForm = ({ type }: { type: string }) => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setLoading(true);
-    console.log(values);
 
-    setLoading(false);
-  }
+    try {
+      // console.log(values);
+
+      // 1. sign up with Appwrite & create plaid token
+      if (type === "sign-in") {
+        // const userData = {
+        //   firstName: data.firstName,
+        // };
+        const res = await signIn({
+          email: data.email,
+          password: data.password
+        })
+        setUser(res)
+      }
+      if (type === "sign-up") {
+        const newUser = await signUp(data)
+        setUser(newUser)
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="auth-form">
@@ -102,6 +127,12 @@ const AuthForm = ({ type }: { type: string }) => {
                     name="address1"
                     label="Address"
                     placeholder="Enter your address"
+                  />
+                  <CustomInput
+                    control={form.control}
+                    name="city"
+                    label="City"
+                    placeholder="Enter your city"
                   />
                   <div className="flex gap-4">
                     <CustomInput
