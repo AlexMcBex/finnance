@@ -31,9 +31,9 @@ export const signIn = async ({ email, password }: signInProps) => {
   }
 };
 
-export const signUp = async (userData: SignUpParams) => {
+export const signUp = async ({password, ...userData}: SignUpParams) => {
   //https://appwrite.io/docs/tutorials/nextjs-ssr-auth/step-5
-  const { email, password, firstName, lastName } = userData; //destructuring
+  const { email, firstName, lastName } = userData; //destructuring
 
   let newUserAccount;
 
@@ -116,7 +116,7 @@ export const createLinkToken = async (user: User) => {
       user: {
         client_user_id: user.$id,
       },
-      client_name: user.name,
+      client_name: `${user.firstName} ${user.lastName}`,
       products: ["auth"] as Products[],
       language: "en",
       country_codes: ["US"] as CountryCode[],
