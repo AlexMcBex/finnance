@@ -49,7 +49,7 @@ export const signIn = async ({ email, password }: signInProps) => {
       secure: true,
     });
     // const response = await account.createEmailPasswordSession(email, password);
-    const useer = await getUserInfo({ userId: session.userId });
+    const user = await getUserInfo({ userId: session.userId });
 
     return parseStringify(user);
   } catch (err) {
@@ -115,7 +115,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
-    const user = await account.get();
+    const result = await account.get();
+    const user = await getUserInfo({ userId: result.$id });
     return parseStringify(user);
   } catch (error) {
     return null;
@@ -141,7 +142,7 @@ export const createLinkToken = async (user: User) => {
         client_user_id: user.$id,
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ["auth"] as Products[],
+      products: ["auth", "transactions"] as Products[],
       language: "en",
       country_codes: ["US"] as CountryCode[],
     };

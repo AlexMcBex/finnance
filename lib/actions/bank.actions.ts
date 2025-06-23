@@ -45,7 +45,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
           type: accountData.type as string,
           subtype: accountData.subtype! as string,
           appwriteItemId: bank.$id,
-          shareagit ableId: bank.shareableId,
+          shareableId: bank.shareableId,
         };
 
         return account;
@@ -97,9 +97,9 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       institutionId: accountsResponse.data.item.institution_id!,
     });
 
-    const transactions = await getTransactions({
+    const transactions = (await getTransactions({
       accessToken: bank?.accessToken,
-    });
+    })) || []
 
     const account = {
       id: accountData.account_id,
