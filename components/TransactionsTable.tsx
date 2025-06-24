@@ -29,7 +29,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
           const amount = formatAmount(t.amount);
           const isDebit = t.type === "debit";
           const isCredit = t.type === "credit";
-          console.log(t)
+        //   console.log(t)
           return (
             <TableRow key={t.id}>
               <TableCell>
