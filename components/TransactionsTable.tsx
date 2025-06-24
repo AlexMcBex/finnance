@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/table";
 import { formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils";
 
-const CagegoryBadge = 
-
 const TransactionsTable = ({ transactions }: TransactionTableProps) => {
   return (
     <Table>
