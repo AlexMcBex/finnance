@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/table";
 import { formatAmount, formatDateTime, getTransactionStatus, removeSpecialCharacters } from "@/lib/utils";
 
+const CagegoryBadge = 
+
 const TransactionsTable = ({ transactions }: TransactionTableProps) => {
   return (
     <Table>
@@ -31,28 +33,30 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
           const isCredit = t.type === "credit";
         //   console.log(t)
           return (
-            <TableRow key={t.id}>
-              <TableCell>
-                <div>
-                  <h1>{removeSpecialCharacters(t.name)}</h1>
+            <TableRow key={t.id} className={`${isDebit || amount[0] === "-" ? `bg-[#FFFBFA]` : `bg-[#F6FEF9]`} !over:bg-none !boder-b-default`}>
+              <TableCell className="max-w-[25opx] pl-2 pr-10">
+                <div className="flex items-center gap-3">
+                  <h1 className="text-14 truncate font-semibold text-[#344054]">{removeSpecialCharacters(t.name)}</h1>
                 </div>
               </TableCell>
-              <TableCell>
+
+              <TableCell className={ `pl-2 pr-10 font-semibold ${isDebit || amount[0] === "-" ? `text-[#f04438]` : `text-[#039855]`} `}>
                 {isDebit ? `-${amount}` :  isCredit ? amount : amount }
               </TableCell>
-              <TableCell>
+
+              <TableCell className="pl-2 pr-10">
                 {status}
               </TableCell>
 
-              <TableCell>
+              <TableCell className="min-w-32 pl-2 pr-10">
                 {formatDateTime(new Date(t.date)).dateTime}
               </TableCell>
 
-              <TableCell>
+              <TableCell className="capitalize min-w-24 pl-2 pr-10">
                 {t.paymentChannel}
               </TableCell>
 
-              <TableCell>
+              <TableCell className="pl-2 pr-10 max-md:hidden">
                 {t.category}
               </TableCell>
 
